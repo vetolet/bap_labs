@@ -1,68 +1,69 @@
-﻿#include <math.h>
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <locale.h>
-#include <string.h>
-#include <stdlib.h>
+#include "primes_finder.h"
 
-#define PI2 6.2831853072 // PI * 2
-
-bool equal(char* a, const char* b) {
-    int p = -1;
-    do {
-        p++;
-        if (a[p] != b[p])
-            return false;
-    } while (a[p] != '\0' && b[p] != '\0');
-    return true;
-}
-
-int main(void)
+int main()
 {
-    setlocale(LC_ALL, "Russian");
+	setlocale(LC_ALL, "Russian");
+	int is_prime[MAX_LIMIT], n;
 
-    long double x, frac, result, z, y, X, EPS;
+	char continue_answer = 'y';
+	do
+	{
+		n = read_primes_limit();
+		if (n >= 2 && n < MAX_LIMIT)
+		{
+			find_primes(is_prime, n);
+			print_primes(is_prime, n);
+		}
+		else
+		{
+			printf("Число не может быть меньше 2 или больше %d\n\n", MAX_LIMIT);
+		}
 
-    printf("Введите точность: ");
-    scanf_s("%Lf", &EPS);
+		do
+		{
+			printf("Хотите продолжить? (y/n): ");
 
-    while (1)
-    {
-        printf("Введите число: ");
-        scanf_s("%Lf", &x);
+			//while(getchar() != '\n');
+			//fseek(stdin, 0, SEEK_END);
+			scanf_s("%*[^\n]");
+			scanf_s("%*c");
 
-        X = x - truncl(x / PI2) * PI2;
+			scanf_s("%c", &continue_answer, 1);
+		} while (continue_answer != 'y' && continue_answer != 'n');
+	} while (continue_answer == 'y');
 
-        frac = 1;
-        result = 1;
-        y = 1;
-        z = -(X * X);
-
-        do
-        {
-            frac *= (z / (y * (y + 1)));
-            result += frac;
-            y += 2;
-        } while (fabsl(frac) > EPS && y <= 100);
-
-        printf("мой    cos(%Lf)=%Lf\n", x, result);
-        printf("math.h cos(%Lf)=%Lf\n\n", x, cosl(x));
-
-        char answer[10];
-        do {
-            printf("Хотите продолжить? (yes/no): ");
-            scanf_s("%9s", &answer, (unsigned)_countof(answer));
-        } while (!equal(answer, "yes") && !equal(answer, "no"));
-        if (equal(answer, "no")) break;
-
-        /*char answer;
-        do {
-            printf("Хотите продолжить? (y/n): ");
-            fseek(stdin, 0, SEEK_END);
-            scanf_s("%c", &answer, 1);
-        } while (answer != 'y' && answer != 'n');
-        if (answer == 'n') break;*/
-
-        printf("\n===================\n\n");
-    }
-    return 0;
+	return 0;
 }
+
+//int main()
+//{
+//	setlocale(LC_ALL, "Russian");
+//	int is_prime[MAX_LIMIT], n;
+//
+//	int continue_answer = 1;
+//	do
+//	{
+//		n = read_primes_limit();
+//		if (n >= 2 && n < MAX_LIMIT)
+//		{
+//			find_primes(is_prime, n);
+//			print_primes(is_prime, n);
+//		}
+//		else
+//		{
+//			printf("Число не может быть меньше 2 или больше %d\n\n", MAX_LIMIT);
+//		}
+//
+//		do 
+//		{
+//			printf("Хотите продолжить? (1 - да / 0 - нет): ");
+//			scanf_s("%d", &continue_answer);
+//		} 
+//		while (continue_answer != 0 && continue_answer != 1);
+//	} 
+//	while (continue_answer == 1);
+//
+//	return 0;
+//}

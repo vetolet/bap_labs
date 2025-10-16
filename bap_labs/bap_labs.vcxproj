@@ -124,6 +124,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bap_labs.cpp" />
+    <ClCompile Include="primes_finder.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="primes_finder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
