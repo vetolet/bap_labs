@@ -26,9 +26,13 @@ int main()
 			printf("Хотите продолжить? (y/n): ");
 
 			//while(getchar() != '\n');
+		
 			//fseek(stdin, 0, SEEK_END);
-			scanf_s("%*[^\n]");
-			scanf_s("%*c");
+
+			//scanf_s("%*[^\n]");
+			//scanf_s("%*c");
+
+			rewind(stdin);
 
 			scanf_s("%c", &continue_answer, 1);
 		} while (continue_answer != 'y' && continue_answer != 'n');
