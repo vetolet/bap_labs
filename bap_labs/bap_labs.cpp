@@ -1,20 +1,68 @@
-﻿// bap_labs.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
+﻿#include <math.h>
+#include <stdio.h>
+#include <locale.h>
+#include <string.h>
+#include <stdlib.h>
 
-#include <iostream>
+#define PI2 6.2831853072 // PI * 2
 
-int main()
-{
-    std::cout << "Hello World!\n";
+bool equal(char* a, const char* b) {
+    int p = -1;
+    do {
+        p++;
+        if (a[p] != b[p])
+            return false;
+    } while (a[p] != '\0' && b[p] != '\0');
+    return true;
 }
 
-// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
-// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
+int main(void)
+{
+    setlocale(LC_ALL, "Russian");
 
-// Советы по началу работы 
-//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
-//   2. В окне Team Explorer можно подключиться к системе управления версиями.
-//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
-//   4. В окне "Список ошибок" можно просматривать ошибки.
-//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
-//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
+    long double x, frac, result, z, y, X, EPS;
+
+    printf("Введите точность: ");
+    scanf_s("%Lf", &EPS);
+
+    while (1)
+    {
+        printf("Введите число: ");
+        scanf_s("%Lf", &x);
+
+        X = x - truncl(x / PI2) * PI2;
+
+        frac = 1;
+        result = 1;
+        y = 1;
+        z = -(X * X);
+
+        do
+        {
+            frac *= (z / (y * (y + 1)));
+            result += frac;
+            y += 2;
+        } while (fabsl(frac) > EPS && y <= 100);
+
+        printf("мой    cos(%Lf)=%Lf\n", x, result);
+        printf("math.h cos(%Lf)=%Lf\n\n", x, cosl(x));
+
+        char answer[10];
+        do {
+            printf("Хотите продолжить? (yes/no): ");
+            scanf_s("%9s", &answer, (unsigned)_countof(answer));
+        } while (!equal(answer, "yes") && !equal(answer, "no"));
+        if (equal(answer, "no")) break;
+
+        /*char answer;
+        do {
+            printf("Хотите продолжить? (y/n): ");
+            fseek(stdin, 0, SEEK_END);
+            scanf_s("%c", &answer, 1);
+        } while (answer != 'y' && answer != 'n');
+        if (answer == 'n') break;*/
+
+        printf("\n===================\n\n");
+    }
+    return 0;
+}
