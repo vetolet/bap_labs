@@ -1,39 +1,40 @@
 ﻿#include <stdio.h>
 #include <locale.h>
-#include "primes_finder.h"
+#include "matrix_rotation.h"
 
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-	int is_prime[MAX_LIMIT + 1], n;
+	int a[SIZE_MAX_LIMIT][SIZE_MAX_LIMIT], n, block_size;
+	bool is_clockwise, is_continue = true;
 
-	char continue_answer = 'y';
+	printf("Программа поворачивает блоки размером n*n в массиве 2n*2n но часовой или против часовой стрелки\n");
 	do
 	{
-		n = read_primes_limit();
-		if (n >= 2 && n <= MAX_LIMIT)
+		block_size = input_block_size();
+		n = block_size * 2;
+		if (n == 0)
 		{
-			find_primes(is_prime, n);
-			print_primes(is_prime, n);
+			printf("Неправильный размер блока\n\n");
+			continue;
 		}
-		else
-			printf("Число не может быть меньше 2 или больше %d\n\n", MAX_LIMIT);
+
+		input_2d_array(a, n, n);
 		
-		do
-		{
-			printf("Хотите продолжить? (y/n): ");
+		printf("Входной массив:\n");
+		print_2d_array(a, n, n);
+		
+		is_clockwise = ask_clockwise();
+		move_blocks(a, block_size, is_clockwise);
 
-			//while(getchar() != '\n');
-			//fseek(stdin, 0, SEEK_END);
-			//scanf_s("%*[^\n]");
-			//scanf_s("%*c");
-			rewind(stdin);
-
-			scanf_s("%c", &continue_answer, 1);
-		} 
-		while (continue_answer != 'y' && continue_answer != 'n');
+		printf("\nМассив после преобразования:\n");
+		print_2d_array(a, n, n);
+		
+		is_continue = ask_continue();
+		
+		printf("====================\n\n");
 	}
-	while (continue_answer == 'y');
+	while (is_continue);
 
 	return 0;
 }
