@@ -5,20 +5,20 @@
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-	int a[SIZE_MAX_LIMIT][SIZE_MAX_LIMIT], n, block_size;
+	float a[MAX_SIZE][MAX_SIZE], n, block_size;
 	bool is_clockwise, is_continue = true;
 
-	printf("Программа поворачивает блоки размером n*n в массиве 2n*2n но часовой или против часовой стрелки\n");
+	printf("Программа поворачивает блоки размером n*n в массиве 2n*2n действительных чисел по часовой или против часовой стрелки\n");
 	do
 	{
 		block_size = input_block_size();
-		n = block_size * 2;
-		if (n == 0)
+		if (block_size == 0)
 		{
 			printf("Неправильный размер блока\n\n");
 			continue;
 		}
 
+		n = block_size * 2;
 		input_2d_array(a, n, n);
 		
 		printf("Входной массив:\n");
